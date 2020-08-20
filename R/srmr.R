@@ -7,7 +7,6 @@
 #' @param Sigma model-implied covariance matrix
 #' @param ybar sample mean vector
 #' @param mu model-implied mean vector
-#' @param verbose when \code{TRUE} prints SRMR components to the console
 #' 
 #' @section Details:
 #' \code{S}, \code{Sigma}, \code{ybar}, and \code{mu} must be of the same dimensions. 
@@ -27,7 +26,7 @@
 #' 
 #' @export
 
-srmr <- function(S, Sigma, ybar = NULL, mu = NULL, verbose = FALSE) {
+srmr <- function(S, Sigma, ybar = NULL, mu = NULL) {
 
   if (nrow(S) != ncol(S)) stop("S is not a square matrix")
   if (nrow(Sigma) != ncol(Sigma)) stop("Sigma is not a square matrix")
@@ -70,11 +69,9 @@ srmr <- function(S, Sigma, ybar = NULL, mu = NULL, verbose = FALSE) {
     srmr_var <- sqrt(sum_std_sq_resid_var / n_var)
   } 
 
-  
   #----------------------------------------------------------------------------#
   # compute SRMR for mean
   #----------------------------------------------------------------------------# 
-
   if (is.null(ybar)) {
   
     n_mean <- 0
@@ -110,30 +107,20 @@ srmr <- function(S, Sigma, ybar = NULL, mu = NULL, verbose = FALSE) {
   #----------------------------------------------------------------------------#
   # package it up
   #----------------------------------------------------------------------------# 
-  srmr_df <- data.frame("comp" = c("Total", "Correlation", "Variance", "Mean"),
-                        "size" = c(denom, n_cor, n_var, n_mean),
-                        "sssr" = c(numer, sum_sq_resid_cor, sum_std_sq_resid_var, sum_std_sq_resid_mean),
-                        "srmr" = c(srmr_total, srmr_cor, srmr_var, srmr_mean))
+  out_labs <- c("Total", "Correlation", "Variance", "Mean")
+  size_out <- c(denom, n_cor, n_var, n_mean)
+  sssr_out <- c(numer, sum_sq_resid_cor, sum_std_sq_resid_var, sum_std_sq_resid_mean)
+  srmr_out <- c(srmr_total, srmr_cor, srmr_var, srmr_mean)
+  
+  names(size_out) <- names(sssr_out) <- names(srmr_out) <- out_labs
 
-  if (verbose == TRUE) {
-    cat("\nNumber of elements",
-        "\n  Total:       ", denom,
-        "\n  Correlation: ", n_cor,
-        "\n  Variance:    ", n_var,
-        "\n  Mean:        ", n_mean, "\n",
-        "\nSum of standarized squared residuals",
-        "\n  Total:       ", numer,
-        "\n  Correlation: ", sum_sq_resid_cor,
-        "\n  Variance:    ", sum_std_sq_resid_var,
-        "\n  Mean:        ", sum_std_sq_resid_mean, "\n",       
-        "\nSRMR",
-        "\n  Total:       ", srmr_total,      
-        "\n  Correlation: ", srmr_cor,
-        "\n  Variance:    ", srmr_var,
-        "\n  Mean:        ", srmr_mean, "\n\n") 
-  }
+  srmr <- list("size" = size_out,
+               "sssr" = sssr_out,
+               "srmr" = srmr_out)
 
-  return(srmr_df)
+  attr(srmr, "class") <- "srmr"
+
+  return(srmr)
 
 }
 
