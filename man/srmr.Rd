@@ -4,7 +4,7 @@
 \alias{srmr}
 \title{Standardized Root Mean Residual}
 \usage{
-srmr(S, Sigma, ybar = NULL, mu = NULL, verbose = FALSE)
+srmr(S, Sigma, ybar = NULL, mu = NULL)
 }
 \arguments{
 \item{S}{sample covariance matrix}
@@ -14,8 +14,6 @@ srmr(S, Sigma, ybar = NULL, mu = NULL, verbose = FALSE)
 \item{ybar}{sample mean vector}
 
 \item{mu}{model-implied mean vector}
-
-\item{verbose}{when \code{TRUE} prints SRMR components to the console}
 }
 \description{
 Computes the square root of the discrepancy between the sample covariance and mean
