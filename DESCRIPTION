@@ -1,0 +1,14 @@
+Package: glvmfit
+Title: Methods for Generalized Latent Variable Model Selection, Adequacy, and Diagnostics
+Version: 0.0.0.9000
+Authors@R: 
+    person(given = "Tyler",
+           family = "Matta",
+           role = c("aut", "cre"),
+           email = "tyler.matta@gmail.com")
+Description: Provides a series of methods for global absolute fit criteria, local absolute fit criteria, and relative fit criteria for generalized latent variable models. 
+Encoding: UTF-8
+LazyData: true
+License: GPL-3
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.1
