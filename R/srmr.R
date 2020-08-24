@@ -7,6 +7,8 @@
 #' @param Sigma model-implied covariance matrix
 #' @param ybar sample mean vector
 #' @param mu model-implied mean vector
+#' @param lavaan_object is a fitted model of class \code{lavaan}
+#' @param exo boolean argument indicating if model has exogenous covariates
 #' 
 #' @section Details:
 #' \code{S}, \code{Sigma}, \code{ybar}, and \code{mu} must be of the same dimensions. 
@@ -26,9 +28,21 @@
 #' 
 #' @export
 
-srmr <- function(S, Sigma, ybar = NULL, mu = NULL) {
+srmr <- function(S = NULL, Sigma = NULL, ybar = NULL, mu = NULL, 
+                 lavaan_object = NULL, exo = TRUE) {
 
-  if (nrow(S) != ncol(S)) stop("S is not a square matrix")
+  if (!is.null(lavaan_object)) {
+
+    moment_list <- get_moments(lavaan_object, exo)
+
+    S     <- moment_list[["S"]]
+    Sigma <- moment_list[["Sigma"]]
+    ybar  <- moment_list[["ybar"]]
+    mu    <- moment_list[["mu"]]
+
+  }
+
+  #if (nrow(S) != ncol(S)) stop("S is not a square matrix")
   if (nrow(Sigma) != ncol(Sigma)) stop("Sigma is not a square matrix")
   if (sum(dim(S)) != sum(dim(Sigma))) stop("S and Sigma are not the same size")
 

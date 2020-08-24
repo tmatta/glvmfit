@@ -4,7 +4,14 @@
 \alias{srmr}
 \title{Standardized Root Mean Residual}
 \usage{
-srmr(S, Sigma, ybar = NULL, mu = NULL)
+srmr(
+  S = NULL,
+  Sigma = NULL,
+  ybar = NULL,
+  mu = NULL,
+  lavaan_object = NULL,
+  exo = TRUE
+)
 }
 \arguments{
 \item{S}{sample covariance matrix}
@@ -14,6 +21,10 @@ srmr(S, Sigma, ybar = NULL, mu = NULL)
 \item{ybar}{sample mean vector}
 
 \item{mu}{model-implied mean vector}
+
+\item{lavaan_object}{is a fitted model of class \code{lavaan}}
+
+\item{exo}{boolean argument indicating if model has exogenous covariates}
 }
 \description{
 Computes the square root of the discrepancy between the sample covariance and mean
