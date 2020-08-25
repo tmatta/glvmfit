@@ -1,6 +1,6 @@
 Package: glvmfit
 Title: Methods for Generalized Latent Variable Model Selection, Adequacy, and Diagnostics
-Version: 0.0.1
+Version: 0.0.0
 Authors@R: c( 
     person(given = "Tyler",
            family = "Matta",

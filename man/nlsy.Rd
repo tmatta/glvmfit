@@ -28,7 +28,8 @@ A data frame with 221 rows and 14 variables:
 nlsy
 }
 \description{
-These data are wave-based such that each child’s Peabody Individual Assessment Test (PIAT) reading and antisocial behavior scores were
-measured at four waves in two-year intervals.
+These data are wave-based such that each child’s Peabody Individual Assessment
+Test (PIAT) reading and antisocial behavior scores were measured at four waves
+in two-year intervals.
 }
 \keyword{datasets}

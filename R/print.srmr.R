@@ -1,6 +1,6 @@
 #' Print
 #'
-#' Prints output of srmr class
+#' Prints output of SRMR class
 #'
 #' @param object R object of class srmr
 #' @param comp components to print

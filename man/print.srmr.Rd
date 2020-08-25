@@ -12,7 +12,7 @@
 \item{comp}{components to print}
 }
 \description{
-Prints output of srmr class
+Prints output of SRMR class
 }
 \examples{
 Sigma <- matrix(c(1.022, .550,  .622, .550, .928, .783, .622, .783, 1.150), 
