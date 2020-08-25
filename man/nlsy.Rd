@@ -3,7 +3,7 @@
 \docType{data}
 \name{nlsy}
 \alias{nlsy}
-\title{Peabody Individual Assessment Test reading scores for 221 children}
+\title{Subset of 221 children from the 1979 National Longitudinal Survey of Youth}
 \format{
 A data frame with 221 rows and 14 variables:
 \describe{
@@ -28,7 +28,7 @@ A data frame with 221 rows and 14 variables:
 nlsy
 }
 \description{
-These data are wave-based such that each child’s PIAT reading and antisocial behavior scores were
+These data are wave-based such that each child’s Peabody Individual Assessment Test (PIAT) reading and antisocial behavior scores were
 measured at four waves in two-year intervals.
 }
 \keyword{datasets}
