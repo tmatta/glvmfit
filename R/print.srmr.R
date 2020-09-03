@@ -1,21 +1,4 @@
-#' Print
-#'
-#' Prints output of SRMR class
-#'
-#' @param object R object of class srmr
-#' @param comp components to print
-#' 
-#' 
-#' @examples
-#' Sigma <- matrix(c(1.022, .550,  .622, .550, .928, .783, .622, .783, 1.150), 
-#'                     nrow = 3)
-#' S <- matrix(c(.770, .545, .515, .545, 1.003, .890, .515, .890, 1.211), 
-#'             nrow = 3)
-#' ybar <- c(2.516, 4.041, 5.021)
-#' mu <- c(2.825, 3.877, 4.929)
-#'
-#' print(srmr(S = S,  Sigma = Sigma, ybar = ybar, mu = mu))
-#' 
+
 print.srmr <- function(object, 
                        comp = c("Total", "Correlation", "Variance", "Mean")) {
   
