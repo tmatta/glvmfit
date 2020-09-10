@@ -10,7 +10,7 @@ Authors@R: c(
            family = "McNeish",
            role = "aut",
            email = "dmcneish@asu.edu"))           
-Description: Provides a series of methods for global absolute fit criteria, local absolute fit criteria, and relative fit criteria for generalized latent variable models. 
+Description: Provides standardized root mean residual global fit index for generalized latent variable models. 
 Encoding: UTF-8
 LazyData: true
 License: GPL-3
