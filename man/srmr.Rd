@@ -26,6 +26,10 @@ srmr(
 
 \item{exo}{boolean argument indicating if model has exogenous covariates}
 }
+\value{
+A list including the SRMR component names, sum of squared resdiauls
+for each component, and the SRMR for each component.
+}
 \description{
 Computes the square root of the discrepancy between the sample covariance and mean
 and the model-implied covariance and mean.

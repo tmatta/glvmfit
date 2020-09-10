@@ -10,6 +10,9 @@
 #' @param lavaan_object is a fitted model of class \code{lavaan}
 #' @param exo boolean argument indicating if model has exogenous covariates
 #' 
+#' @return A list including the SRMR component names, sum of squared resdiauls 
+#'         for each component, and the SRMR for each component.
+#' 
 #' @section Details:
 #' \code{S}, \code{Sigma}, \code{ybar}, and \code{mu} must be of the same dimensions. 
 #' 
