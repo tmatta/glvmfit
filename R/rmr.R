@@ -1,6 +1,6 @@
-#' Standardized Root Mean Residual 
+#' Root Mean Residual 
 #'
-#' Computes the square root of the standardized discrepancy between the sample covariance and mean 
+#' Computes the square root of the discrepancy between the sample covariance and mean 
 #' and the model-implied covariance and mean.  
 #'
 #' @param S sample covariance matrix
@@ -30,11 +30,11 @@
 #' ybar <- c(2.516, 4.041, 5.021)
 #' mu <- c(2.825, 3.877, 4.929)
 #'
-#' srmr(S = S,  Sigma = Sigma, ybar = ybar, mu = mu)
+#' rmr(S = S,  Sigma = Sigma, ybar = ybar, mu = mu)
 #' 
 #' @export
 
-srmr <- function(S = NULL, Sigma = NULL, ybar = NULL, mu = NULL, 
+rmr <- function(S = NULL, Sigma = NULL, ybar = NULL, mu = NULL, 
                  lavaan_object = NULL, exo = TRUE) {
 
   if (!is.null(lavaan_object)) {
@@ -52,9 +52,6 @@ srmr <- function(S = NULL, Sigma = NULL, ybar = NULL, mu = NULL,
   if (nrow(Sigma) != ncol(Sigma)) stop("Sigma is not a square matrix")
   if (sum(dim(S)) != sum(dim(Sigma))) stop("S and Sigma are not the same size")
 
-  D <- diag(sqrt(diag(S)))
-  invD <- solve(D)
-
   #----------------------------------------------------------------------------#
   # compute SRMR for covariance
   #----------------------------------------------------------------------------#
@@ -64,10 +61,8 @@ srmr <- function(S = NULL, Sigma = NULL, ybar = NULL, mu = NULL,
 
   dev_vcov <- S - Sigma
 
-  std_dev_vcov <- invD %*% dev_vcov %*% invD
-
-  delta_cov <- std_dev_vcov[lower.tri(std_dev_vcov)]^2
-  srmr_cov <- sqrt(delta_cov / P_cov)
+  delta_cov <- dev_vcov[lower.tri(dev_vcov)]^2
+  rmr_cov <- sqrt(delta_cov / P_cov)
 
   #----------------------------------------------------------------------------#
   # compute SRMR for variance
@@ -75,13 +70,13 @@ srmr <- function(S = NULL, Sigma = NULL, ybar = NULL, mu = NULL,
   if (sum(diag(S)) == sum(diag(Sigma))) {
   
     P_var <- 0
-    srmr_var <- 0
+    rmr_var <- 0
 
   } else {
     
     P_var <- dim_S
-    delta_var <- diag(std_dev_vcov^2)
-    srmr_var <- sqrt(delta_var / P_var)
+    delta_var <- diag(dev_vcov)^2
+    rmr_var <- sqrt(delta_var / P_var)
 
   } 
 
@@ -91,7 +86,7 @@ srmr <- function(S = NULL, Sigma = NULL, ybar = NULL, mu = NULL,
   if (is.null(ybar) | sum(ybar) == sum(mu)) {
   
     P_mean <- 0
-    srmr_mean <- NA
+    rmr_mean <- NA
 
   } else {
 
@@ -100,10 +95,9 @@ srmr <- function(S = NULL, Sigma = NULL, ybar = NULL, mu = NULL,
 
     P_mean <- length(ybar)
 
-    # standardized residual mean vector
-    std_dev_mean <- invD %*% (ybar - mu) 
-    delta_mean <- std_dev_mean^2
-    srmr_mean <- sqrt(delta_mean / P_mean)
+    # residual mean vector
+    delta_mean <- (ybar - mu)^2
+    rmr_mean <- sqrt(delta_mean / P_mean)
   }
 
   #----------------------------------------------------------------------------#
@@ -113,25 +107,25 @@ srmr <- function(S = NULL, Sigma = NULL, ybar = NULL, mu = NULL,
 
   P <- sum(c(P_cov, P_var, P_mean))
     
-  srmr_total <- sqrt(delta / P)
+  rmr_total <- sqrt(delta / P)
 
   #----------------------------------------------------------------------------#
   # package it up
   #----------------------------------------------------------------------------# 
   out_labs <- c("Total", "Covariance", "Variance", "Mean")
   size_out <- c(P, P_cov, P_var, P_mean)
-  sssr_out <- c(delta, delta_cov, delta_var, delta_mean)
-  srmr_out <- c(srmr_total, srmr_cov, srmr_var, srmr_mean)
+  ssr_out <- c(delta, delta_cov, delta_var, delta_mean)
+  rmr_out <- c(rmr_total, rmr_cov, rmr_var, rmr_mean)
   
-  names(size_out) <- names(sssr_out) <- names(srmr_out) <- out_labs
+  names(size_out) <- names(ssr_out) <- names(rmr_out) <- out_labs
 
-  srmr <- list("size" = size_out,
-               "sssr" = sssr_out,
-               "srmr" = srmr_out)
+  rmr <- list("size" = size_out,
+              "ssr" = ssr_out,
+              "rmr" = rmr_out)
 
-  attr(srmr, "class") <- "srmr"
+  attr(rmr, "class") <- "rmr"
 
-  return(srmr)
+  return(rmr)
 
 }
 
