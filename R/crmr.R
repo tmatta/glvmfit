@@ -1,7 +1,7 @@
 #' Standardized Root Mean Residual 
 #'
-#' Computes the square root of the standardized discrepancy between the sample covariance and mean 
-#' and the model-implied covariance and mean.  
+#' Computes the square root of the discrepancy between the sample standardized covariance and mean 
+#' and the model-implied standardized covariance and mean.  
 #'
 #' @param S sample covariance matrix
 #' @param Sigma model-implied covariance matrix
@@ -52,46 +52,36 @@ srmr <- function(S = NULL, Sigma = NULL, ybar = NULL, mu = NULL,
   if (nrow(Sigma) != ncol(Sigma)) stop("Sigma is not a square matrix")
   if (sum(dim(S)) != sum(dim(Sigma))) stop("S and Sigma are not the same size")
 
-  D <- diag(sqrt(diag(S)))
-  invD <- solve(D)
 
   #----------------------------------------------------------------------------#
-  # compute SRMR for covariance
+  # compute CRMR for covariance
   #----------------------------------------------------------------------------#
   dim_S <- nrow(S)
-
-  P_cov <- (dim_S * (dim_S-1)) / 2
-
-  dev_vcov <- S - Sigma
-
-  std_dev_vcov <- invD %*% dev_vcov %*% invD
-
-  delta_cov <- sum(std_dev_vcov[lower.tri(std_dev_vcov)]^2)
-  srmr_cov <- sqrt(delta_cov / P_cov)
-
-  #----------------------------------------------------------------------------#
-  # compute SRMR for variance
-  #----------------------------------------------------------------------------#
-  if (sum(diag(S)) == sum(diag(Sigma))) {
-  
-    P_var <- 0
-    srmr_var <- 0
-
-  } else {
+  R <- cov2cor(S)
+  Rho <- cov2cor(Sigma)
     
-    P_var <- dim_S
-    delta_var <- sum(diag(std_dev_vcov)^2)
-    srmr_var <- sqrt(delta_var / P_var)
+  P_cor <- (dim_S * (dim_S-1)) / 2
 
-  } 
+  dev_cor <- R - Rho
+
+  delta_cor <- dev_cor[lower.tri(dev_cor)]^2
+
+  crmr_cor <- sqrt(delta_cov / P_cor)
 
   #----------------------------------------------------------------------------#
-  # compute SRMR for mean
+  # compute CRMR for variance
+  #----------------------------------------------------------------------------#
+  if (sum(diag(S)) != sum(diag(Sigma))) {
+    warning("S is not a correlation matrix nor is Sigma saturated!\nThe CRMR does not include misfit of the variances")
+  }
+
+  #----------------------------------------------------------------------------#
+  # compute CRMR for mean
   #----------------------------------------------------------------------------# 
   if (is.null(ybar) | sum(ybar) == sum(mu)) {
   
     P_mean <- 0
-    srmr_mean <- NA
+    crmr_mean <- NA
 
   } else {
 
@@ -101,35 +91,39 @@ srmr <- function(S = NULL, Sigma = NULL, ybar = NULL, mu = NULL,
     P_mean <- length(ybar)
 
     # standardized residual mean vector
-    std_dev_mean <- invD %*% (ybar - mu) 
-    delta_mean <- sum(std_dev_mean^2)
-    srmr_mean <- sqrt(delta_mean / P_mean)
+    std_samp_mean <- ybar / sqrt(diag(S))
+    std_impld_mean <- mu / sqrt(diag(Sigma))
+
+    delta_mean <- (std_samp_mean - std_impld_mean)^2
+    crmr_mean <- sqrt(delta_mean / P_mean)
   }
 
   #----------------------------------------------------------------------------#
   # compute SRMR for total structure
   #----------------------------------------------------------------------------# 
-  delta <- sum(c(delta_cov, delta_var, delta_mean), na.rm = TRUE)
+  delta <- sum(c(delta_cor, delta_mean), na.rm = TRUE)
 
-  P <- sum(c(P_cov, P_var, P_mean))
+  P <- sum(c(P_cor, P_mean))
     
-  srmr_total <- sqrt(delta / P)
+  crmr_total <- sqrt(delta / P)
 
   #----------------------------------------------------------------------------#
   # package it up
   #----------------------------------------------------------------------------# 
-  out_labs <- c("Total", "Covariance", "Variance", "Mean")
-  size_out <- as.integer(c(P, P_cov, P_var, P_mean))
-  delta_out <- c(delta, delta_cov, delta_var, delta_mean)
-  srmr_out <- c(srmr_total, srmr_cov, srmr_var, srmr_mean)
-     
-  srmr_obj <- new("ResidualFitIndex")
-  srmr_obj@Type <- "SRMR"
-  srmr_obj@Index <- srmr_out
-  srmr_obj@Discrepency <- delta_out
-  srmr_obj@Size <- size_out
+  out_labs <- c("Total", "Correlation", "Mean")
+  size_out <- c(P, P_cor, P_mean)
+  sssr_out <- c(delta, delta_cor, delta_mean)
+  srmr_out <- c(crmr_total, crmr_cor, srmr_mean)
+  
+  names(size_out) <- names(ssr_out) <- names(rmr_out) <- out_labs
 
-  return(srmr_obj)
+  srmr <- list("size" = size_out,
+               "ssr" = ssr_out,
+               "crmr" = crmr_out)
+
+  attr(crmr, "class") <- "crmr"
+
+  return(crmr)
 
 }
 
