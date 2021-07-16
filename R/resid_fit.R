@@ -65,7 +65,7 @@ resid_fit <- function(S = NULL, Sigma = NULL, ybar = NULL, mu = NULL,
   #-----------------------------------------------------------------------------
   # Means ----------------------------------------------------------------------
   #-----------------------------------------------------------------------------  
-  if (is.null(resid_fit_obj@sampleMoments$yBar)){
+  if (is.null(ybar)) {
     
     P_mean <- NULL
     raw_dev_mean <- std_dev_mean <- dev_std_mean <- NULL
@@ -126,7 +126,7 @@ resid_fit <- function(S = NULL, Sigma = NULL, ybar = NULL, mu = NULL,
 
   } else {
 
-    P_var <- nrow(S))
+    P_var <- nrow(S)
     
     # RMR Variance -------------------------------------------------------------
     ss_raw_dev_var <- sum(diag(raw_dev_vcov)^2)

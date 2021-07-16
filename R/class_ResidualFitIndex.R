@@ -7,11 +7,11 @@
 #' @slot index
 #' 
 setClass("ResidualFitIndex", 
-         slots = (c(type = "character",
-                    resid = "list",
-                    ssr = "list",
-                    size = "list",
-                    index = "list")),
+         slots = c(type  = "character",
+                   resid = "list",
+                   ssr   = "list",
+                   size  = "list",
+                   index = "list"),
          prototype = list(type = NA_character_,
                           resid = list(vcov = matrix(NA_real_), mean = matrix(NA_real_)),
                           ssr   = list(total = NA_real_, mean = NA_real_, var = NA_real_, cov = NA_real_),
@@ -25,10 +25,14 @@ setClass("ResidualFitIndex",
 #' @slot CRMR
 #' 
 setClass("ResidualFitIndices", 
-         slots = c(RMR  = "ResidualFitIndex",
+         slots = c(sampleMoments = "list",
+                   impliedMoments = "list",
+                   RMR  = "ResidualFitIndex",
                    SRMR = "ResidualFitIndex",
                    CRMR = "ResidualFitIndex"),
-         prototype = list(RMR = new("ResidualFitIndex"), 
+         prototype = list(sampleMoments = list(yBar = matrix(NA_real_), S = matrix(NA_real_)),
+                          impliedMoments = list(muHat = matrix(NA_real_), SigmaHat = matrix(NA_real_)),
+                          RMR = new("ResidualFitIndex"), 
                           SRMR = new("ResidualFitIndex"), 
                           CRMR = new("ResidualFitIndex"))
          )
