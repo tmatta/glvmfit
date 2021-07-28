@@ -10,11 +10,13 @@ Authors@R: c(
            family = "McNeish",
            role = "aut",
            email = "dmcneish@asu.edu"))           
-Description: Provides standardized root mean residual global fit index for generalized latent variable models. 
+Description: Provides residual global fit indices for generalized latent variable models. 
 Encoding: UTF-8
 LazyData: true
 License: GPL-3
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.1
+Imports:
+    methods
 Depends: 
     R (>= 2.10)

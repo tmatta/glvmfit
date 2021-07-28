@@ -111,8 +111,8 @@ resid_fit <- function(S = NULL, Sigma = NULL, ybar = NULL, mu = NULL,
   srmr_cov   <- resid_index(ssr = ss_std_dev_lt, P = P_lt) 
 
   # CRMR Covariance ------------------------------------------------------------
-  Rho <- cov2cor(Sigma)
-  R <- cov2cor(S)
+  Rho <- stats::cov2cor(Sigma)
+  R <- stats::cov2cor(S)
   dev_std_vcov <- R - Rho
   ss_dev_std_lt <- sum_sq_lt(dev_std_vcov) 
   crmr_cov   <- resid_index(ssr = ss_dev_std_lt, P = P_lt) 
@@ -159,7 +159,7 @@ resid_fit <- function(S = NULL, Sigma = NULL, ybar = NULL, mu = NULL,
   #-----------------------------------------------------------------------------
 
   # RMR ------------------------------------------------------------------------
-  rmr_obj <- new("ResidualFitIndex")
+  rmr_obj <- methods::new("ResidualFitIndex")
   rmr_obj@type  <- "RMR"
   rmr_obj@resid <- list(mean  = raw_dev_mean, vcov = raw_dev_vcov)
   rmr_obj@ssr   <- list(total = ss_raw_dev_total, mean = ss_raw_dev_mean, 
@@ -168,7 +168,7 @@ resid_fit <- function(S = NULL, Sigma = NULL, ybar = NULL, mu = NULL,
   rmr_obj@index <- list(total = rmr_total, mean = rmr_mean, var = rmr_var, cov = rmr_cov)
 
   # SRMR -----------------------------------------------------------------------
-  srmr_obj <- new("ResidualFitIndex")
+  srmr_obj <- methods::new("ResidualFitIndex")
   srmr_obj@type  <- "SRMR"
   srmr_obj@resid <- list(mean  = std_dev_mean, vcov  = std_dev_vcov)
   srmr_obj@ssr   <- list(total = ss_std_dev_total, mean = ss_std_dev_mean, 
@@ -178,7 +178,7 @@ resid_fit <- function(S = NULL, Sigma = NULL, ybar = NULL, mu = NULL,
                          cov = srmr_cov)
   
   # CRMR -----------------------------------------------------------------------
-  crmr_obj <- new("ResidualFitIndex")
+  crmr_obj <- methods::new("ResidualFitIndex")
   crmr_obj@type  <- "CRMR"
   crmr_obj@resid <- list(mean  = dev_std_mean, vcov  = dev_std_vcov)
   crmr_obj@ssr   <- list(total = ss_dev_std_total, mean = ss_dev_std_mean, 
@@ -187,7 +187,7 @@ resid_fit <- function(S = NULL, Sigma = NULL, ybar = NULL, mu = NULL,
   crmr_obj@index <- list(total = crmr_total, mean = crmr_mean, cov = crmr_cov)
 
   # ResidualFitIndices ---------------------------------------------------------
-  resid_fit_obj <- new(Class = "ResidualFitIndices")
+  resid_fit_obj <- methods::new("ResidualFitIndices")
   resid_fit_obj@sampleMoments  <- list(yBar = ybar, S = S, dim = length(ybar))
   resid_fit_obj@impliedMoments <- list(muHat = mu, SigmaHat = Sigma, dim = length(mu))
   resid_fit_obj@RMR = rmr_obj
