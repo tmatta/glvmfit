@@ -3,17 +3,11 @@
 \docType{class}
 \name{ResidualFitIndices-class}
 \alias{ResidualFitIndices-class}
-\alias{show}
-\alias{show,ResidualFitIndices-method}
 \alias{details}
 \alias{details,ResidualFitIndices-method}
 \title{An S4 class to represent the set of residual fit indicies}
 \usage{
-show(object)
-
-\S4method{show}{ResidualFitIndices}(object)
-
-details(object, comp)
+details(object, comp = c("Total", "Covariance", "Variance", "Mean", "Total"))
 
 \S4method{details}{ResidualFitIndices}(object, comp = c("Total", "Covariance", "Variance", "Mean", "Total"))
 }

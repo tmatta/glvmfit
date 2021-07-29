@@ -28,25 +28,37 @@ setMethod(f = "initialize", signature = "ResidualFitIndices",
           }
 )
 
-#' @rdname ResidualFitIndices 
-#' 
-setGeneric(name="show", def=function(object) {
- standardGeneric("show")
- }
-)
-
-#' @rdname ResidualFitIndices
-
-setMethod("show", "ResidualFitIndices", function(object) {
+setMethod(f = "print", 
+          signature = "ResidualFitIndices", 
+          definition = function(x, ...) {
   
-    cat("Residual Fit Indices\n")
-    cat("  RMR:  ", round(object@RMR@index$total, 3), "\n")      
-    cat("  SRMR: ", round(object@SRMR@index$total, 3), "\n")      
-    cat("  CRMR: ", round(object@CRMR@index$total, 3), "\n")      
+    cat("Residual Fit Indices\n",
+        "  RMR:  ", round(x@RMR@index$total, 3), "\n",      
+        "  SRMR: ", round(x@SRMR@index$total, 3), "\n",      
+        "  CRMR: ", round(x@CRMR@index$total, 3), "\n")    
+
+})
+
+
+setMethod(f = "show", 
+          signature = "ResidualFitIndices", 
+          definition = function(object) {
+  
+    cat("Residual Fit Indices\n",
+        "  RMR:  ", round(object@RMR@index$total, 3), "\n",      
+        "  SRMR: ", round(object@SRMR@index$total, 3), "\n",      
+        "  CRMR: ", round(object@CRMR@index$total, 3), "\n")    
 
 })
 
 #' @rdname ResidualFitIndices 
+
+setGeneric(name = "details", def = function(object, comp = c("Total", "Covariance", "Variance", "Mean", "Total")) {
+ standardGeneric("details")
+ }
+)
+
+#' @rdname ResidualFitIndices
 #' 
 #' @param object R object of type \code{ResidualFitIndices}.
 #' @param comp Character indicating the components to include.
@@ -57,16 +69,9 @@ setMethod("show", "ResidualFitIndices", function(object) {
 #' 
 #' @export 
 #' 
-
-setGeneric(name = "details", def = function(object, comp) {
- standardGeneric("details")
- }
-)
-
-#' @rdname ResidualFitIndices
-
-setMethod("details", "ResidualFitIndices", 
-    function(object, comp = c("Total", "Covariance", "Variance", "Mean", "Total")) {
+setMethod(f = "details", 
+          signature = "ResidualFitIndices", 
+          function(object, comp = c("Total", "Covariance", "Variance", "Mean", "Total")) {
 
 
   if ("Total" %in% comp) {
