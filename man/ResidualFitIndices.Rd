@@ -5,7 +5,7 @@
 \alias{ResidualFitIndices-class}
 \alias{details}
 \alias{details,ResidualFitIndices-method}
-\title{An S4 class to represent the set of residual fit indicies}
+\title{An S4 class to represent the set of residual fit indices}
 \usage{
 details(object, comp = c("Total", "Covariance", "Variance", "Mean", "Total"))
 
@@ -17,7 +17,7 @@ details(object, comp = c("Total", "Covariance", "Variance", "Mean", "Total"))
 \item{comp}{Character indicating the components to include.}
 }
 \description{
-An S4 class to represent the set of residual fit indicies
+An S4 class to represent the set of residual fit indices
 }
 \section{Slots}{
 
