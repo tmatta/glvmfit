@@ -1,10 +1,18 @@
 ## Test environments
-* local R installation, R 3.6.1
-* ubuntu 16.04 (on travis-ci), R 3.6.1
-* win-builder (devel)
+Using R-hub
 
-## R CMD check results
+### Windows Server 2008 R2 SP1, R-devel, 32/64 bit
 
-0 errors | 0 warnings | 1 note
+  Possibly mis-spelled words in DESCRIPTION:
+  Maintainer: 'Tyler Matta <tyler.matta@gmail.com>'
+    indices (13:43)
 
-* This is a new release.
+### Ubuntu Linux 20.04.1 LTS, R-release, GCC
+
+0 errors ✔ | 0 warnings ✔ | 0 notes ✔
+
+### Fedora Linux, R-devel, clang, gfortran
+
+0 errors ✔ | 0 warnings ✔ | 0 notes ✔
+
+
